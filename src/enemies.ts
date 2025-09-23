@@ -66,8 +66,8 @@ export const allEnemies: Enemy[] = [
 
   { name: "Geckalog", health: 80_000, rewards: { gold: 80, fruit: 15 }, weaknesses: ["ice", "left"] },
   { name: "Jaw Maw Maw", health: 60_000, regen: 60, rewards: { gold: 60, fruit: 16 }, passiveEffects: ["Jaw Maw Maw heals quickly."] },
-  { name: "Gnollish Ambassador", health: 120_000, armor: 10, rewards: { gold: 20, fruit: 19 }, weaknesses: ["fire", "right"] },
-  { name: "Striped Horror", health: 200_000, dodge: 10, rewards: { gold: 10, fruit: 20 } },
+  { name: "Gnollish Ambassador", health: 120_000, dodge: 10, rewards: { gold: 20, fruit: 19 }, weaknesses: ["fire", "right"] },
+  { name: "Striped Horror", health: 200_000, armor: 50, rewards: { gold: 10, fruit: 20 } },
   {
     name: "Dragonfly Agaric", health: 600_000, rewards: { gold: 20, fruit: 30 }, immune: ["poison"], regen: 3_000, weaknesses: ["fire", "left"],
     passiveEffects: ["The spores of the Dragonfly Agaric are toxic to everything but itself."],
