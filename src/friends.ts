@@ -517,7 +517,7 @@ They found refuge in this dungeon and now in your band.
     name: 'Pecquer',
     cost: 0,
     description: `
-Pecquer is a veteran mercenary from the thirty kingdoms. The warriors he fought beside sing songs of his bravery.
+Pecquer is a veteran mercenary from the thirty kingdoms. The warriors who fought beside him sing songs of his bravery.
     `,
     abilities: [{
       name: "Sneak Past",
