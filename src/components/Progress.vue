@@ -32,6 +32,8 @@ defineProps<{
   border: 1px solid #000;
   overflow: hidden;
   margin-top: 8px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .progress-bar {
