@@ -258,7 +258,8 @@ const enabled = computed(() => {
         <SlowButton :title="ab.name"
           :display-duration="typeof ab.duration === 'number' ? 1000 * ab.duration : undefined"
           :description="describeAbility(ab, { hitChance: 1, damageMultiplier: 1, baseMultiplier: 1, enemyMultiplier: 1, rndHits: () => 1 })"
-          :image="`images/generated/${ab.image ?? ab.name}.webp`" v-if="!ab.hidden?.(store)" :cost="abilityCost(ab)"
+          :image="`images/generated/${ab.image ?? ab.name}.webp`" v-if="!ab.hideInDescription || !ab.hidden?.(store)"
+          :cost="abilityCost(ab)"
           :tags="onboard('Desert Rabbit') && abilityTags({ ...ab, source: onboard(selected) })" />
       </template>
     </div>

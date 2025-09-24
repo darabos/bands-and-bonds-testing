@@ -145,6 +145,7 @@ export type Ability = {
   name: string;
   image?: string;
   hidden?: ((store: Store) => boolean);
+  hideInDescription?: boolean; // Hide it by default in descriptive contexts, like on the Band page.
   description: string | ((store: Store, self: Ability) => string);
   duration: number | ((store: Store) => number);
   damage?: number | ((store: Store) => number);

@@ -218,7 +218,7 @@ for (const enemy of Object.values(enemiesByName)) {
         <SlowButton :title="ab.name"
           :display-duration="typeof ab.duration === 'number' ? 1000 * ab.duration : undefined"
           :description="st.describeAbility(ab, { hitChance: 1, damageMultiplier: 1, baseMultiplier: 1, enemyMultiplier: 1, rndHits: () => 1 })"
-          :image="`images/generated/${ab.image ?? ab.name}.webp`" v-if="!ab.hidden?.(store)"
+          :image="`images/generated/${ab.image ?? ab.name}.webp`" v-if="!ab.hideInDescription || !ab.hidden?.(store)"
           :cost="st.abilityCost(ab)" />
       </div>
     </div>

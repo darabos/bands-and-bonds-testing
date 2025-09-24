@@ -517,7 +517,7 @@ They found refuge in this dungeon and now in your band.
     name: 'Pecquer',
     cost: 0,
     description: `
-Pecquer is a veteran mercenary from the thirty kingdoms. The warriors he fought besides sing songs of his bravery.
+Pecquer is a veteran mercenary from the thirty kingdoms. The warriors he fought beside sing songs of his bravery.
     `,
     abilities: [{
       name: "Sneak Past",
@@ -685,6 +685,7 @@ a Xaranthian person, and neither has anyone else in your band.
       name: "Grow Gun",
       consumes: { gold: 100 },
       hidden: (store) => store.run.room.xaranthian.growers !== 1,
+      hideInDescription: true,
       duration: 16,
       description: (store) =>
         `Grow a mechanical gun.${store.run.room.xaranthian.guns ? ` (Currently ${numberSpan(store.run.room.xaranthian.guns)} guns.)` : ''}`,
@@ -697,6 +698,7 @@ a Xaranthian person, and neither has anyone else in your band.
       name: "Grow Guns",
       consumes: { gold: 100 },
       hidden: (store) => store.run.room.xaranthian.growers < 2,
+      hideInDescription: true,
       duration: 16,
       description: (store) =>
         `Grow ${numberSpan(store.run.room.xaranthian.growers)} mechanical guns.${store.run.room.xaranthian.guns ? ` (Currently ${numberSpan(store.run.room.xaranthian.guns)} guns.)` : ''}`,
@@ -708,6 +710,7 @@ a Xaranthian person, and neither has anyone else in your band.
     }, {
       name: "Fire Xaranthian Gun",
       hidden: (store) => store.run.room.xaranthian.guns !== 1,
+      hideInDescription: true,
       duration: 16,
       description: "Fire the mechanical gun.",
       tags: ['ranged'],
@@ -715,6 +718,7 @@ a Xaranthian person, and neither has anyone else in your band.
     }, {
       name: "Fire Xaranthian Guns",
       hidden: (store) => store.run.room.xaranthian.guns < 2,
+      hideInDescription: true,
       duration: 16,
       description: (store) => `Fire ${numberSpan(store.run.room.xaranthian.guns)} mechanical guns.`,
       tags: ['ranged'],
@@ -737,6 +741,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Produce Turtle",
         consumes: { gold: 100_000 },
         hidden: (store) => store.run.room.xaranthian.factories !== 1,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Build a mechanical turtle in the factory.${store.run.room.xaranthian.turtles ? ` (Currently ${numberSpan(store.run.room.xaranthian.turtles)} turtles.)` : ''}`,
@@ -749,6 +754,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Produce Turtles",
         consumes: { gold: 100_000 },
         hidden: (store) => store.run.room.xaranthian.factories < 2,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Build ${numberSpan(store.run.room.xaranthian.factories)} mechanical turtles in the factories.${store.run.room.xaranthian.turtles ? ` (Currently ${numberSpan(store.run.room.xaranthian.turtles)} turtles.)` : ''}`,
@@ -761,6 +767,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Build Deployer",
         consumes: { gold: 10_000 },
         hidden: (store) => store.run.room.xaranthian.turtles !== 1,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Build a deployer from the mechanical turtle.${store.run.room.xaranthian.deployers ? ` (Currently ${numberSpan(store.run.room.xaranthian.deployers)} deployers.)` : ''}`,
@@ -773,6 +780,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Build Deployers",
         consumes: { gold: 10_000 },
         hidden: (store) => store.run.room.xaranthian.turtles < 2,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Build ${numberSpan(store.run.room.xaranthian.turtles)} deployers from the mechanical turtles.${store.run.room.xaranthian.deployers ? ` (Currently ${numberSpan(store.run.room.xaranthian.deployers)} deployers.)` : ''}`,
@@ -785,6 +793,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Deploy Grower",
         consumes: { gold: 1_000 },
         hidden: (store) => store.run.room.xaranthian.deployers !== 1,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Deploy a mechanical grower.${store.run.room.xaranthian.growers ? ` (Currently ${numberSpan(store.run.room.xaranthian.growers)} growers.)` : ''}`,
@@ -797,6 +806,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Deploy Growers",
         consumes: { gold: 1_000 },
         hidden: (store) => store.run.room.xaranthian.deployers < 2,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Deploy ${numberSpan(store.run.room.xaranthian.deployers)} mechanical growers.${store.run.room.xaranthian.growers ? ` (Currently ${numberSpan(store.run.room.xaranthian.growers)} growers.)` : ''}`,
@@ -809,6 +819,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Grow Gun",
         consumes: { gold: 100 },
         hidden: (store) => store.run.room.xaranthian.growers !== 1,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Grow a mechanical gun.${store.run.room.xaranthian.guns ? ` (Currently ${numberSpan(store.run.room.xaranthian.guns)} guns.)` : ''}`,
@@ -821,6 +832,7 @@ a Xaranthian person, and neither has anyone else in your band.
         name: "Grow Guns",
         consumes: { gold: 100 },
         hidden: (store) => store.run.room.xaranthian.growers < 2,
+        hideInDescription: true,
         duration: 16,
         description: (store) =>
           `Grow ${numberSpan(store.run.room.xaranthian.growers)} mechanical guns.${store.run.room.xaranthian.guns ? ` (Currently ${numberSpan(store.run.room.xaranthian.guns)} guns.)` : ''}`,
@@ -832,6 +844,7 @@ a Xaranthian person, and neither has anyone else in your band.
       }, {
         name: "Fire Xaranthian Gun",
         hidden: (store) => store.run.room.xaranthian.guns !== 1,
+        hideInDescription: true,
         duration: 16,
         description: "Fire the mechanical gun.",
         tags: ['ranged'],
@@ -839,6 +852,7 @@ a Xaranthian person, and neither has anyone else in your band.
       }, {
         name: "Fire Xaranthian Guns",
         hidden: (store) => store.run.room.xaranthian.guns < 2,
+        hideInDescription: true,
         duration: 16,
         description: (store) => `Fire ${numberSpan(store.run.room.xaranthian.guns)} mechanical guns.`,
         tags: ['ranged'],
@@ -916,6 +930,7 @@ for (const an1 of ATTACKS) {
       duration: Math.sqrt(a1.duration * a2.duration),
       damage: Math.sqrt(dmg1 * dmg2),
       description: `Smiling Pilot has copied this from ${abilityOwners[an1]} and ${abilityOwners[an2]}.`,
+      hideInDescription: true,
       hidden(store) {
         const pos = store.onboard('Smiling Pilot');
         const pos1 = store.onboard(abilityOwners[an1]);
