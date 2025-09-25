@@ -125,7 +125,7 @@ export type Store = {
 
 export type Turn = {
   title?: string; // Not included in Room.next, but added otherwise.
-  label?: string; // The label of the next room.
+  label: string; // The label of the next room.
   description?: string; // Description of the turn.
   leadsTo?: string; // The room key of the next enemy.
 };
@@ -139,6 +139,7 @@ export type Room = {
   label?: string; // Referenced from "next", like a goto label.
   end?: boolean; // If true, this is the end of the path.
   leadsTo?: string; // The room key of the next enemy, if `next` is not defined.
+  index?: number; // Index in allRooms.
 };
 
 export type Ability = {

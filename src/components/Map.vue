@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onboard, store } from "../store.ts";
 import { enemiesByName } from "../enemies.ts";
-import { allRooms, destinationToPath, roomKey, turnsToPath } from "../rooms.ts";
+import { allRooms, destinationToPath, roomKey, roomsByLabel, roomsByKey, turnsToPath } from "../rooms.ts";
 import { type Room, durationFormat } from "../base.ts";
-import curvedLine from "./curved-line.ts";
+import * as cl from "./curved-line.ts";
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
 import EnemyRewards from "./EnemyRewards.vue";
 import Num from "./Num.vue";
@@ -57,18 +57,44 @@ function roomClicked(room: Room) {
   }
 }
 
-const line = computed(() => curvedLine(20, scale.value, rooms.value));
+const line = computed(() => cl.curvedLine(20, scale.value, rooms.value));
 const planRooms = computed(() =>
   onboard("Wayfinder") && store.local.destination ? destinationToPath(store.local.destination) : []);
-const planLine = computed(() => curvedLine(20, scale.value, planRooms.value));
+const planLine = computed(() => cl.curvedLine(20, scale.value, planRooms.value));
 const hoveredRoom = ref<Room | null>(null);
 const hoveredEnemy = computed(() => hoveredRoom.value?.name ? enemiesByName[hoveredRoom.value.name] : null);
+const discoveredLines = computed(() => {
+  function getSegments(rooms: Room[], segments: Set<string>) {
+    const last = rooms[rooms.length - 1];
+    // if (last !== allRooms[0] && !store.team.discovered.includes(roomKey(last))) {
+    //   return;
+    // }
+    if (last.end) {
+      let prevPos: string | null = null;
+      for (const s of cl.curvedLineSegments(20, scale.value, rooms)) {
+        if (prevPos)
+          segments.add(`M ${prevPos} ${s}`);
+        prevPos = s.split(' ').slice(-2).join(' ');
+      }
+    }
+    const nextRooms: Room[] = last.next ?
+      Object.values(last.next).map(n => allRooms[roomsByLabel[n.label]])
+      : last.end ? [] : [allRooms[(last.index ?? 0) + 1]];
+    for (const next of nextRooms) {
+      getSegments([...rooms, next], segments);
+    }
+  }
+  const segments = new Set<string>();
+  getSegments([allRooms[0]], segments);
+  return Array.from(segments).join(' ');
+});
 </script>
 
 <template>
   <div class="map" ref="mapElement">
     <div class="map-backdrop" />
     <svg width="100%" height="100%">
+      <path :d="discoveredLines" stroke="#fff4" :stroke-width="1 * scale" fill="none" />
       <path :d="line" stroke="white" :stroke-width="5 * scale" fill="none" />
       <path :d="planLine" stroke="white" :stroke-width="3 * scale" stroke-dasharray="3 5" fill="none" />
       <circle v-if="rooms?.[rooms.length - 1]?.type === 'none'" :cx="rooms[rooms.length - 1].x * scale"

@@ -305,14 +305,15 @@ export function destinationToPath(destination: string): Room[] {
 }
 
 // Fill in "leadsTo" values for all rooms.
-const roomByLabel = {} as Record<string, number>;
+export const roomsByLabel = {} as Record<string, number>;
 export const roomsByKey = {} as Record<string, Room>;
 for (let i = 0; i < allRooms.length; i++) {
   const room = allRooms[i];
+  room.index = i;
   const key = roomKey(room);
   roomsByKey[key] = room;
   if (room.label) {
-    roomByLabel[room.label] = i;
+    roomsByLabel[room.label] = i;
   }
 }
 const prevRoom = {} as Record<number, { room: number, turn?: string }>;
@@ -322,7 +323,7 @@ for (let i = 0; i < allRooms.length - 1; i++) {
     for (const turnKey of Object.keys(room.next)) {
       const turn: Turn = room.next[turnKey];
       if (!turn.label) continue;
-      const nextRoom = roomByLabel[turn.label];
+      const nextRoom = roomsByLabel[turn.label];
       if (nextRoom === undefined) continue;
       prevRoom[nextRoom] = { room: i, turn: turnKey };
     }
