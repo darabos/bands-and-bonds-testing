@@ -112,7 +112,8 @@ The only way to defend against his attacks is to dodge them or wear layers of he
       name: 'Dark Sommelier',
       description: `
 A master of the culinary arts, Dark Sommelier fights by poisoning the enemies.
-The only way to defend against his attacks is to wear layers of heavy armor.`,
+The airborne poison can not be dodged. The only way to defend against his attacks is to wear layers of heavy armor.
+`,
       abilities: [{
         name: "Poison Strike",
         duration: 5,
