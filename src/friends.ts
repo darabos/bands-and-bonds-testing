@@ -474,7 +474,10 @@ Standing next to Azrekta, the Smiling Wizard takes her shape and copies her abil
   {
     name: 'Mongreler',
     cost: 0,
-    description: "A collector of unusual pets. Mongreler can capture weakened enemies and deploy them on the battlefield.",
+    description: `
+A collector of unusual pets. Mongreler can capture weakened enemies and deploy them on the battlefield.
+They are let go when retreating.
+    `,
     passiveEffects: ['Mongreler wants to capture enemies. Damage is reduced by 99% to avoid killing them.'],
     super: {
       name: 'Monster Juggler',
@@ -569,7 +572,7 @@ Uses left: ${numberSpan(2 - store.run.skips)}`,
       name: "Buy Fruit",
       duration: 1,
       consumes: { gold: 10 },
-      description: 'Buy a piece of fruit at the Hedge Market.',
+      description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon" /> at the Hedge Market.',
       onCompleted(store, times) {
         store.run.fruit += store.fruitMultiplier() * times;
       },
@@ -595,11 +598,12 @@ ${numberSpan(store.run.saplings * store.fruitMultiplier(),
         name: "Buy Fruit",
         duration: 1,
         consumes: { gold: 10 },
-        description: 'Buy a piece of fruit at the Hedge Market.',
+        description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon" /> at the Hedge Market.',
         onCompleted(store, times) {
           store.run.fruit += store.fruitMultiplier() * times;
         },
         peaceful: true,
+        affectedBySpeedLevel: true,
       }, {
         name: "Buy Sapling",
         duration: 10,
@@ -615,7 +619,7 @@ ${numberSpan(store.run.saplings * store.fruitMultiplier(),
         peaceful: true,
       }, {
         name: "Crash the Market",
-        duration: 0.1,
+        duration: 3,
         consumes: (store) => ({ saplings: Math.max(1, store.run.saplings) }),
         preventRepeat: true,
         preventAutomation: true,
