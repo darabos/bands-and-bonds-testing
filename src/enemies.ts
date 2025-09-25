@@ -128,17 +128,18 @@ export const allEnemies: Enemy[] = [
         return `<img src="images/generated/Skelemasterion-captured.webp" class="friend" style="margin-top: -30px;">
     <h1 style="margin-top: -10px">Skelemasterion is captured!</h1>
     <div class="description">
+        ${rankText}
         <p>Your victory is complete. Your band organizes a feast.</p>
         <p>You search Skelemasterion's lair and collect its treasures. You can force the beast to reveal its secrets now.
           Finally you learn how to access the next level of the dungeon.</p>
-        ${rankText}`;
+    </div>`;
       } else {
         return `<img src="images/generated/Skelemasterion-dead.webp" class="friend">
     <h1 style="margin-top: -30px">Skelemasterion is defeated!</h1>
     <div class="description">
-        <p>Victory is yours. A great evil has been vanquished. Time to celebrate!</p>
-        <p>You search its lair and collect its treasures. Yet you miss something that only Skelemasterion could reveal...</p>
         ${rankText}
+        <p>Victory is yours. A great evil has been vanquished. Time to celebrate!</p>
+        <p>You search Skelemasterion's lair and collect its treasures. Yet you miss something that only Skelemasterion could reveal...</p>
     </div>`;
       }
     },
@@ -297,7 +298,7 @@ This negates the defenses of ethereal enemies.`,
   }],
   "Artifact Seeker": [{
     name: "Seek Artifact", duration: 10, peaceful: true, description: `
-Finds a chest containing an artifact worth a thousand pieces of <img src="images/generated/gold.webp" class="resource-icon" />.
+Finds a chest containing an artifact worth a thousand pieces of <img src="images/generated/gold.webp" class="resource-icon resource-icon-solo" />.
 Have these chests always been around us?`,
     onCompleted(store, times) {
       store.run.gold += 10_000 * times;
@@ -335,7 +336,7 @@ Then a whirlwind collects all the petals and puts them back together in the shap
       store.run.fruit += 1_000 * store.fruitMultiplier();
       discardMonster(store, 'Food Mimic');
     },
-    description: "The Food Mimic permanently turns into a large amount of <img src=\"images/generated/fruit.webp\" class=\"resource-icon\" />.",
+    description: "The Food Mimic permanently turns into a large amount of <img src=\"images/generated/fruit.webp\" class=\"resource-icon resource-icon-solo\" />.",
   }],
   "Frog Assassin": [{ name: "Last Croak", duration: 2, damage: 20_000, description: "Hire a famous assassin.", consumes: { gold: 100_000 }, tags: ['sharp'] }],
   "Enantiomers": [{

@@ -97,6 +97,10 @@ button.disabled {
   i {
     color: #edb;
   }
+
+  b {
+    color: #bde;
+  }
 }
 
 .callout {
@@ -186,6 +190,10 @@ p:last-child {
   border: 0;
   margin-left: -0.2em;
   vertical-align: middle;
+}
+
+.resource-icon-solo {
+  margin: 0;
 }
 
 u {

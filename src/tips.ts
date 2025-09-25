@@ -33,7 +33,7 @@ const tipsByFriend: { [friend: string]: Partial<Tip>[] } = {
       enabled: (store) => !store.local.settings.online
     },
     { text: "This game is not meant to be slow. If it feels slow, try a different band composition or go in a different direction." },
-    { text: "We can't take advantage of enemy weaknesses when Desert Rabbit is not with us.", enabled: (store) => resting(store, "Desert Rabbit") },
+    { text: "We can't take advantage of enemy weaknesses when Desert Rabbit is not with us. I can't even see the elemental types of our attacks without him.", enabled: (store) => resting(store, "Desert Rabbit") },
     { text: "Azrekta is truly magical. Time to experiment!", enabled: (store) => resting(store, "Azrekta") },
     { text: "At least we have enough fruit to buy more packs now.", enabled: (store) => store.team.fruit + store.run.fruit >= costOfPacks(store.team.packs + 1) },
     {
@@ -56,7 +56,15 @@ const tipsByFriend: { [friend: string]: Partial<Tip>[] } = {
   ],
   "Anvilomancer": [
     {
-      text: "Without Azrekta's magic, I have to start my work over each time we enter the dungeon.",
+      text: `
+<p>The old master sent his apprentice outside to chop firewood.
+The apprentice looked up at the great mound of firewood and despaired.
+<i>“Master,”</i> he called, <i>“I will never finish chopping all this firewood!”</i>
+The master replied, <b>“Good. It would not fit in our stove anyway.”</b>
+<p>Sometimes I feel like gold is my firewood.
+` },
+    {
+      text: "Without Azrekta’s magic, I have to start my work over each time we enter the dungeon.",
       enabled: (store) => store.team.unlocked.includes("Azrekta") && !store.onboard("Anvilominator")
     },
   ],
@@ -124,9 +132,10 @@ const tipsByFriend: { [friend: string]: Partial<Tip>[] } = {
 export const allTips: Tip[] = Object.entries(tipsByFriend).flatMap(([friend, tips]) =>
   tips.map(tip => {
     let text = tip.text ?? '';
-    text = text.replace('fruit', '<img src="images/generated/fruit.webp" class="resource-icon" />');
-    text = text.replace('packs', '<img src="images/generated/pack.webp" class="resource-icon" />');
-    text = text.replace('gold', '<img src="images/generated/gold.webp" class="resource-icon" />');
+    text = text.replace('fruit', '<img src="images/generated/fruit.webp" class="resource-icon resource-icon-solo" />');
+    text = text.replace('packs', '<img src="images/generated/pack.webp" class="resource-icon resource-icon-solo" />');
+    text = text.replace('gold', '<img src="images/generated/gold.webp" class="resource-icon resource-icon-solo" />');
+    text = text.replace("'", "’");
     return { ...tip, friend, text };
   })
 );

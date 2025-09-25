@@ -573,7 +573,7 @@ Uses left: ${numberSpan(2 - store.run.skips)}`,
       name: "Buy Fruit",
       duration: 1,
       consumes: { gold: 10 },
-      description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon" /> at the Hedge Market.',
+      description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon resource-icon-solo" /> at the Hedge Market.',
       onCompleted(store, times) {
         store.run.fruit += store.fruitMultiplier() * times;
       },
@@ -599,7 +599,7 @@ ${numberSpan(store.run.saplings * store.fruitMultiplier(),
         name: "Buy Fruit",
         duration: 1,
         consumes: { gold: 10 },
-        description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon" /> at the Hedge Market.',
+        description: 'Buy a <img src="images/generated/fruit.webp" class="resource-icon resource-icon-solo" /> at the Hedge Market.',
         onCompleted(store, times) {
           store.run.fruit += store.fruitMultiplier() * times;
         },
