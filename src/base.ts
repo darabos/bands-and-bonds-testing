@@ -48,6 +48,7 @@ export type RunData = {
   capturedMonsters: string[];
   room: RoomData;
   timers: Record<string, Timer>;
+  lastHeld?: string;
   skipTime: number; // Time to skip in the next frame, for time-skip abilities.
 };
 

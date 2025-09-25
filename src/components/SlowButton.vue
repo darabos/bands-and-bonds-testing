@@ -68,10 +68,20 @@ const pointerDown = ref(false);
 watch(pointerDown, (newVal) => {
   if (!props.timerKey || props.autostart || !store.run.timers[props.timerKey]) return;
   store.run.timers[props.timerKey].automatic = newVal;
+  if (!newVal) {
+    if (store.run.lastHeld === props.timerKey) {
+      store.run.lastHeld = undefined;
+    } else {
+      store.run.lastHeld = props.timerKey;
+    }
+  }
 });
 onUnmounted(() => {
   if (props.timerKey && store.run.timers[props.timerKey]) {
     delete store.run.timers[props.timerKey];
+    if (store.run.lastHeld === props.timerKey) {
+      store.run.lastHeld = undefined;
+    }
     // Refund cost.
     store.run.gold += props.cost.gold;
     store.run.fruit += props.cost.fruit;
@@ -92,8 +102,9 @@ const duration = computed(() => {
 
 <template>
   <button @click="start()" @pointerdown="pointerDown = true; start();" @pointerup="pointerDown = false"
-    @pointercancel="pointerDown = false" @pointerleave="pointerDown = false" :style="style()"
-    :class="{ 'can-hold': true, disabled: !affordable || running }" class="slow">
+    @blur="if (props.timerKey) store.run.lastHeld = undefined;" @pointercancel="pointerDown = false"
+    @pointerleave="pointerDown = false" :style="style()" :class="{ 'can-hold': true, disabled: !affordable || running }"
+    class="slow">
     <div>
       <img v-bind:src="props.image" />
       <div class="tags"><span v-for="tag in props.tags" class="tag" :class="tag"></span></div>

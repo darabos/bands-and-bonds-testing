@@ -19,7 +19,7 @@ const tipsByFriend: { [friend: string]: Partial<Tip>[] } = {
   ],
   "Lamplighter": [
     { text: "Good thing I brought a lamp. This must be one of the darkest dungeons I've seen." },
-    { text: "You can <i>hold</i> a button to keep repeating an attack." },
+    { text: "On mobile you can <i>hold</i> multiple buttons to keep repeating attacks." },
     {
       text: "Did you know you can <i>move</i> band members without removing and re-adding them? One click to select, another click to move. Like my grandma always said.",
       enabled: (store) => !store.team.unlocked.includes("Bayla")

@@ -37,6 +37,7 @@ export function startingRunData(): base.RunData {
     room: startingRoomData(),
     timers: {} as Record<string, base.Timer>,
     skipTime: 0,
+    lastHeld: undefined,
   };
 }
 
@@ -459,7 +460,7 @@ function timerFinished(key: string, timer: base.Timer, times: number) {
   if (_times && ab) {
     executeAbility(ab, _times);
   }
-  if (timer.automatic) {
+  if (timer.automatic || store.run.lastHeld === key) {
     // The circumstances may have changed.
     timer.duration = abilityDuration(ab) * 1000;
     timer.cost = abilityCost(ab);
