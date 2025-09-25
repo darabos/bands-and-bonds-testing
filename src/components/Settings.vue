@@ -40,6 +40,45 @@ function unlockEverything() {
   unlockConfirmation.value++;
 }
 
+function download(filename: string, text: string) {
+  const element = document.createElement('a');
+  element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
+
+function exportState() {
+  const state = {
+    run: store.run,
+    local: store.local,
+    team: store.team,
+  };
+  const t = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+  download(`bands-and-bonds-${t}.json`, JSON.stringify(state));
+}
+
+function importState(event: DragEvent) {
+  const files = event.dataTransfer?.files;
+  if (!files || files.length === 0) {
+    return;
+  }
+  const file = files[0];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    if (!e.target?.result) {
+      return;
+    }
+    const imported = JSON.parse(e.target.result as string);
+    Object.assign(store.run, imported.run ?? {});
+    Object.assign(store.local, imported.local ?? {});
+    Object.assign(store.team, imported.team ?? {});
+  };
+  reader.readAsText(file);
+}
+
 const resetConfirmation = ref(0);
 const unlockConfirmation = ref(0);
 </script>
@@ -114,6 +153,24 @@ const unlockConfirmation = ref(0);
           <p v-else-if="unlockConfirmation >= 1">
             Click again if you are sure.
           </p>
+        </div>
+      </div>
+    </button>
+    <button @click="exportState()">
+      <img src="/images/generated/Construct Factory.webp" />
+      <div class="text">
+        <div class="title">Export game state</div>
+        <div class="description">
+          <p>Download your current game state as a JSON file.</p>
+        </div>
+      </div>
+    </button>
+    <button @drop.prevent="importState" @dragenter.prevent @dragover.prevent>
+      <img src="/images/generated/Deploy Grower.webp" />
+      <div class="text">
+        <div class="title">Import game state</div>
+        <div class="description">
+          <p>Drop a JSON file here to import your game state.</p>
         </div>
       </div>
     </button>
