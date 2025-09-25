@@ -31,11 +31,17 @@ async function copyTeamLink() {
 }
 
 function unlockEverything() {
+  if (unlockConfirmation.value < 1) {
+    unlockConfirmation.value++;
+    return;
+  }
   store.team.unlocked = allFriends.map(friend => friend.name);
   store.team.discovered = allRooms.map(roomKey);
+  unlockConfirmation.value++;
 }
 
 const resetConfirmation = ref(0);
+const unlockConfirmation = ref(0);
 </script>
 
 <template>
@@ -70,7 +76,7 @@ const resetConfirmation = ref(0);
       </div>
     </button>
     <div class="section">Developer tools</div>
-    <button @click="reset()">
+    <button @click="reset()" @blur="resetConfirmation = 0">
       <img src="/images/generated/reset.webp" />
       <div class="text">
         <div class="title">Reset data</div>
@@ -96,12 +102,18 @@ const resetConfirmation = ref(0);
         </div>
       </div>
     </button>
-    <button @click="unlockEverything()">
+    <button @click="unlockEverything()" @blur="unlockConfirmation = 0">
       <img src="/images/generated/rescue-locked.webp" />
       <div class="text">
         <div class="title">Unlock everything</div>
         <div class="description">
           <p>Unlocks all characters. Definitely spoils the game.</p>
+          <p v-if="unlockConfirmation >= 2">
+            Unlocked!
+          </p>
+          <p v-else-if="unlockConfirmation >= 1">
+            Click again if you are sure.
+          </p>
         </div>
       </div>
     </button>
