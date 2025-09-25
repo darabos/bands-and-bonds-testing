@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onboard, store } from "../store.ts";
 import { enemiesByName } from "../enemies.ts";
-import { allRooms, destinationToPath, roomKey, roomsByLabel, roomsByKey, turnsToPath } from "../rooms.ts";
+import { allRooms, destinationToPath, roomKey, roomsByLabel, turnsToPath } from "../rooms.ts";
 import { type Room, durationFormat } from "../base.ts";
 import * as cl from "./curved-line.ts";
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
@@ -66,22 +66,20 @@ const hoveredEnemy = computed(() => hoveredRoom.value?.name ? enemiesByName[hove
 const discoveredLines = computed(() => {
   function getSegments(rooms: Room[], segments: Set<string>) {
     const last = rooms[rooms.length - 1];
-    // if (last !== allRooms[0] && !store.team.discovered.includes(roomKey(last))) {
-    //   return;
-    // }
-    if (last.end) {
+    if (last.end || last !== allRooms[0] && last.type !== 'none' && !store.team.discovered.includes(roomKey(last))) {
       let prevPos: string | null = null;
       for (const s of cl.curvedLineSegments(20, scale.value, rooms)) {
         if (prevPos)
           segments.add(`M ${prevPos} ${s}`);
         prevPos = s.split(' ').slice(-2).join(' ');
       }
-    }
-    const nextRooms: Room[] = last.next ?
-      Object.values(last.next).map(n => allRooms[roomsByLabel[n.label]])
-      : last.end ? [] : [allRooms[(last.index ?? 0) + 1]];
-    for (const next of nextRooms) {
-      getSegments([...rooms, next], segments);
+    } else {
+      const nextRooms: Room[] = last.next ?
+        Object.values(last.next).map(n => allRooms[roomsByLabel[n.label!]])
+        : last.end ? [] : [allRooms[(last.index ?? 0) + 1]];
+      for (const next of nextRooms) {
+        getSegments([...rooms, next], segments);
+      }
     }
   }
   const segments = new Set<string>();
@@ -94,7 +92,7 @@ const discoveredLines = computed(() => {
   <div class="map" ref="mapElement">
     <div class="map-backdrop" />
     <svg width="100%" height="100%">
-      <path :d="discoveredLines" stroke="#fff4" :stroke-width="1 * scale" fill="none" />
+      <path :d="discoveredLines" stroke="#fff8" :stroke-width="1 * scale" fill="none" />
       <path :d="line" stroke="white" :stroke-width="5 * scale" fill="none" />
       <path :d="planLine" stroke="white" :stroke-width="3 * scale" stroke-dasharray="3 5" fill="none" />
       <circle v-if="rooms?.[rooms.length - 1]?.type === 'none'" :cx="rooms[rooms.length - 1].x * scale"

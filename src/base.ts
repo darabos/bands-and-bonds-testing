@@ -125,7 +125,7 @@ export type Store = {
 
 export type Turn = {
   title?: string; // Not included in Room.next, but added otherwise.
-  label: string; // The label of the next room.
+  label?: string; // The label of the next room.
   description?: string; // Description of the turn.
   leadsTo?: string; // The room key of the next enemy.
 };
