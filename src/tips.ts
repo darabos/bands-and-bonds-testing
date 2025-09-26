@@ -67,6 +67,9 @@ The master replied, <b>“Good. It would not fit in our stove anyway.”</b>
       text: "Without Azrekta’s magic, I have to start my work over each time we enter the dungeon.",
       enabled: (store) => store.team.unlocked.includes("Azrekta") && !store.onboard("Anvilominator")
     },
+    {
+      text: "My forge is not fast. We don't have to wait for it though. Exploring the dungeon is more exciting!",
+    },
   ],
   "Knight of Claws": [
     {
