@@ -323,6 +323,7 @@ const enabled = computed(() => {
 
 .band-tutorial,
 .band-tutorial-narrow {
+  animation: bounce 3s ease-in-out 0s infinite;
   position: absolute;
   bottom: 55%;
   left: 63%;
@@ -331,6 +332,28 @@ const enabled = computed(() => {
   padding: 5px 10px;
   border-radius: 15px;
   border-bottom-left-radius: 0;
+}
+
+@keyframes bounce {
+  0% {
+    transform: rotate(1deg) translateY(-5px);
+  }
+
+  5% {
+    transform: rotate(-1deg) translateY(2px);
+  }
+
+  7% {
+    transform: none;
+  }
+
+  95% {
+    transform: none;
+  }
+
+  100% {
+    transform: rotate(1deg) translateY(-5px);
+  }
 }
 
 .band-tutorial-narrow {

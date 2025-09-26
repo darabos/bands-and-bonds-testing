@@ -261,7 +261,7 @@ At the lowest level, they discovered the entrance to the dungeon.
   {
     name: 'The Silent Song',
     cost: 0,
-    description: "Her sweet melody doubles the damage dealt by friends standing next to her.",
+    description: "Her sweet melody doubles the damage dealt by friends standing on the four tiles next to her.",
     super: {
       name: 'The Silent Quartet',
       description: "Their sweet melody doubles the damage dealt by all friends.",
