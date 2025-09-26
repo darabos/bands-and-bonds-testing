@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import SlowButton from "./SlowButton.vue";
-import { store, describeAbility, abilityCost, abilityTags, friendAt, nextTo, onboard } from "../store.ts";
+import { store, bandByName, describeAbility, abilityCost, abilityTags, friendAt, nextTo, onboard } from "../store.ts";
 import { friendsByName } from "../friends.ts";
 import Fruit from "./Fruit.vue";
 import Packs from "./Packs.vue";
@@ -201,8 +201,9 @@ const enabled = computed(() => {
         </button>
         <button v-else class="band-cell unavailable">
         </button>
-        <template v-if="row === 2 && col === 2 && store.team.unlocked.includes('Lamplighter')">
-          <div v-if="friendAt(row, col)?.name === 'Stick Master' && !enabled" class="band-tutorial">
+        <template
+          v-if="row === 2 && col === 2 && store.team.unlocked.includes('Lamplighter') && !onboard('Lamplighter')">
+          <div v-if="!enabled" class="band-tutorial">
             Retreat to make changes to the band
           </div>
           <div v-else-if="friendAt(row, col)?.name === 'Stick Master' && selected !== 'Stick Master'"
@@ -222,6 +223,23 @@ const enabled = computed(() => {
             Click here to add {{ selected }} to the band
           </div>
           <div v-else-if="!friendAt(row, col)" class="band-tutorial">
+            Buy more <img src="/images/generated/pack.webp" class="resource-icon" />
+            to afford adding {{ selected }} to the band
+          </div>
+        </template>
+        <template v-if="row === 2 && col === 3 && onboard('Lamplighter') && Object.keys(bandByName).length === 1">
+          <div v-if="!enabled" class="band-tutorial-narrow">
+            Retreat to make changes to the band
+          </div>
+          <div v-else-if="(selected === 'Lamplighter' || !selected)" class="band-tutorial-narrow">
+            Select someone below to add them to the band
+          </div>
+          <div
+            v-else-if="store.team.packs >= packsSpent + (friendsByName[selected ?? '']?.cost ?? 0) && store.available(row, col)"
+            class="band-tutorial-narrow">
+            Click here to add {{ selected }} to the band
+          </div>
+          <div v-else class="band-tutorial-narrow">
             Buy more <img src="/images/generated/pack.webp" class="resource-icon" />
             to afford adding {{ selected }} to the band
           </div>
@@ -303,7 +321,8 @@ const enabled = computed(() => {
   }
 }
 
-.band-tutorial {
+.band-tutorial,
+.band-tutorial-narrow {
   position: absolute;
   bottom: 55%;
   left: 63%;
@@ -312,6 +331,10 @@ const enabled = computed(() => {
   padding: 5px 10px;
   border-radius: 15px;
   border-bottom-left-radius: 0;
+}
+
+.band-tutorial-narrow {
+  left: 82%;
 }
 
 u {
