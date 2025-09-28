@@ -200,12 +200,15 @@ for (const enemy of Object.values(enemiesByName)) {
         <h1>{{ enemy.name }}</h1>
         <img :src="`images/generated/${enemy.name}.webp`" :alt="enemy.name" :key="enemy.name" class="enemy-portrait"
           :class="{ ethereal: st.ethereal.value, dead: enemy.health <= store.run.room.damage && !enemy.eulogy }" />
-        <Progress :value="enemy.health - store.run.room.damage" :max="enemy.health" color="#c00" label="HP" />
-        <Progress v-if="enemy.armor" :value="enemy.armor - store.run.room.armorDamage" :max="enemy.armor" color="#666"
-          label="Armor" title="Armor is subtracted from damage" />
       </div>
       <div key="enemy-eulogy" class="revealed-info eulogy" v-else v-html="enemy.eulogy(store)" />
     </Transition>
+  </div>
+  <div class="enemy-sticky"
+    v-if="enemy && (!enemy.eulogy || enemy.health > store.run.room.damage || store.run.timers.celebrating)">
+    <Progress :value="enemy.health - store.run.room.damage" :max="enemy.health" color="#c00" label="HP" />
+    <Progress v-if="enemy.armor" :value="enemy.armor - store.run.room.armorDamage" :max="enemy.armor" color="#666"
+      label="Armor" title="Armor is subtracted from damage" />
   </div>
   <Transition mode="out-in" :duration="props.testMode ? 0 : undefined">
     <div key="just-rescued" class="revealed-info" v-if="st.justRescued.value">
@@ -333,6 +336,12 @@ for (const enemy of Object.values(enemiesByName)) {
   border-left-color: #e8c;
   border-bottom-color: #e8c;
   border-right-color: #8af;
+}
+
+.enemy-sticky {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
 
 .fade-to-white {
