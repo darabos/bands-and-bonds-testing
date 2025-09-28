@@ -210,7 +210,7 @@ export function costOfPacks(packs: number): number {
   return Math.floor(0.00000001 * packs ** 7 + packs);
 }
 
-export function durationFormat(durationMs: number) {
+export function durationFormat(durationMs: number): string {
   if (!durationMs) return "0 seconds";
   let duration = durationMs;
   const units = ['year', 'day', 'hour', 'minute', 'second', 'ms', 'µs', 'ns'];

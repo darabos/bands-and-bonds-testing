@@ -3,9 +3,7 @@ import { computed, ref } from "vue";
 import SlowButton from "./SlowButton.vue";
 import { store, bandByName, describeAbility, abilityCost, abilityTags, friendAt, nextTo, onboard } from "../store.ts";
 import { friendsByName } from "../friends.ts";
-import Fruit from "./Fruit.vue";
 import Packs from "./Packs.vue";
-import { costOfPacks } from "../base.ts";
 
 const selected = ref(undefined as string | undefined);
 
@@ -154,17 +152,6 @@ const unusedFriends = computed(() => {
   return unused;
 });
 
-function buyPack() {
-  const nextCost = costOfPacks(store.team.packs + 1)
-  if (store.team.fruit + store.run.fruit < nextCost) return;
-  if (store.team.fruit < nextCost) {
-    // Automatically convert run fruit to team fruit if needed.
-    store.run.fruit -= nextCost - store.team.fruit;
-    store.team.fruit = nextCost;
-  }
-  store.team.packs += 1;
-}
-
 const enabled = computed(() => {
   if (store.run.steps === 0) return true;
   if (onboard('Wayfinder')) {
@@ -177,17 +164,11 @@ const enabled = computed(() => {
 
 <template>
   <p>
-    The <u contenteditable="true">Unnamed Band</u> is assembled at a total cost of
+    Your band is assembled at a total cost of
     <Packs :amount="packsSpent" />,
     leaving you with
     <Packs :amount="store.team.packs - packsSpent" />
     to hire more members.
-    <button class="buy-pack-button" @click="buyPack()"
-      :class="{ unaffordable: store.team.fruit + store.run.fruit < costOfPacks(store.team.packs + 1) }">Buy
-      <Packs :amount="1" />
-      for
-      <Fruit :amount="costOfPacks(store.team.packs + 1) - costOfPacks(store.team.packs)" />
-    </button>
   </p>
   <div class="band-grid" :class="{ enabled, disabled: !enabled }">
     <img class="light-ring" :src="`images/generated/light-ring.webp`" :class="store.lightRadius()" />
@@ -464,15 +445,6 @@ h2 {
 
 .friend-cost {
   font-size: 18px;
-}
-
-.buy-pack-button {
-  width: auto;
-  font-size: 15px;
-}
-
-.buy-pack-button.unaffordable .numbers {
-  color: red;
 }
 
 .disabled button:hover {

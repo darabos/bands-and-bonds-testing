@@ -3,12 +3,13 @@ import * as st from "../store.ts";
 import { friendsByName } from "../friends.ts";
 import { enemiesByName } from "../enemies.ts";
 import { roomsByKey } from "../rooms.ts";
-import { numberFormat, durationFormat, type Ability } from "../base.ts";
+import { numberFormat, durationFormat, costOfPacks, type Ability } from "../base.ts";
 import SlowButton from "./SlowButton.vue";
 import Progress from "./Progress.vue";
 import { computed, defineProps, ref, watch } from "vue";
 import EnemyRewards from "./EnemyRewards.vue";
 import Fruit from "./Fruit.vue";
+import Packs from "./Packs.vue";
 import Num from "./Num.vue";
 import Victory from "./Victory.vue";
 import { allTips, type Tip } from "../tips.ts";
@@ -299,6 +300,12 @@ for (const enemy of Object.values(enemiesByName)) {
         </div>
       </div>
     </button>
+    <SlowButton v-if="store.run.steps === 0" timer-key="buy-pack" :duration="500" title="Buy Provisions" description="
+The trader by the dungeon's entrance is eager to exchange your
+<img src='/images/generated/fruit.webp' class='resource-icon resource-icon-solo' />
+for <span class='numbers'>1 <img src='/images/generated/pack.webp' class='resource-icon' /></span>.
+    " image="images/generated/Buy Pack.webp" :automatic="true"
+      :cost="{ fruit: costOfPacks(store.team.packs + 1) - costOfPacks(store.team.packs), gold: 0, saplings: 0 }" />
   </div>
 </template>
 

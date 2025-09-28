@@ -5,7 +5,7 @@ import { store } from '../store.ts';
 import Fruit from './Fruit.vue';
 import Gold from './Gold.vue';
 import Saplings from './Saplings.vue';
-import { durationFormat, type Resources } from '../base.ts';
+import { costOfPacks, durationFormat, type Resources } from '../base.ts';
 const props = defineProps({
   timerKey: { type: String, required: false },
   title: { type: String, required: true },
@@ -20,6 +20,7 @@ const props = defineProps({
 });
 function start() {
   if (!props.timerKey || !props.duration) return;
+  if (!affordable.value) return;
   store.startTimer(props.timerKey, {
     duration: props.duration,
     cost: props.cost,
@@ -50,6 +51,7 @@ const description = computed(() => {
   return props.description ? marked(props.description) : "";
 });
 const affordable = computed(() => {
+  if (props.timerKey === 'buy-pack') return costOfPacks(store.team.packs + 1) <= store.team.fruit;
   const aff = store.run.gold >= props.cost.gold && store.run.fruit >= props.cost.fruit && store.run.saplings >= props.cost.saplings;
   return aff;
 });
@@ -135,6 +137,7 @@ const duration = computed(() => {
 .cost {
   float: right;
   margin: 5px;
+  margin-top: 1px;
 }
 
 .cost.unaffordable {
