@@ -80,6 +80,12 @@ function loadData<T extends object>(key: string, defaultValue: T): T {
 export const runData = reactive<base.RunData>(loadData('bnb-run', startingRunData()));
 export const localData = reactive<base.LocalData>(loadData('bnb-local', startingLocalData()));
 export const teamData = reactive<base.TeamData>(loadData('bnb-team', base.startingTeamData()));
+type LastRun = base.RunData & {
+  hadAnvilomancer: boolean,
+  hadAnvilominator: boolean,
+  packsBought: number[],
+};
+export const lastRun = ref<LastRun | undefined>(undefined);
 export const store: base.Store = {
   run: runData,
   local: localData,
@@ -260,6 +266,7 @@ function addDamage(x: number, times: number, opts?: base.DamageOptions) {
 }
 
 function takeTurn(turn: string) {
+  lastRun.value = undefined;
   store.run.room = startingRoomData();
   store.run.steps += 1;
   if (turn !== KEEP_GOING.title) {
@@ -504,6 +511,17 @@ export function retreat() {
     store.team.bestWeaponLevel = store.weaponLevel();
   }
   const capturedMonsters = store.run.capturedMonsters;
+  const packsBought: number[] = [];
+  while (store.team.fruit >= base.costOfPacks(store.team.packs + 1)) {
+    store.team.packs += 1;
+    packsBought.push(base.costOfPacks(store.team.packs) - base.costOfPacks(store.team.packs - 1));
+  }
+  lastRun.value = {
+    ...store.run,
+    hadAnvilomancer: !!onboard("Anvilomancer"),
+    hadAnvilominator: !!onboard("Anvilominator"),
+    packsBought,
+  };
   Object.assign(store.run, startingRunData());
   if (onboard("Monster Juggler")) {
     store.run.capturedMonsters = capturedMonsters;

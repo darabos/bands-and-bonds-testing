@@ -8,11 +8,11 @@ const props = defineProps<{
 
 <template>
   <template v-if="props.amount === undefined">
-    <img src="/images/generated/fruit.webp" class="resource-icon resource-icon-solo" />
+    <img src="/images/generated/victory3.webp" class="resource-icon resource-icon-solo" />
   </template>
   <template v-else>
     <Num :amount="props.amount">
-      <img src="/images/generated/fruit.webp" class="resource-icon" />
+      <img src="/images/generated/victory3.webp" class="resource-icon" />
     </Num>
   </template>
 </template>

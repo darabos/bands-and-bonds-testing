@@ -12,6 +12,7 @@ import Fruit from "./Fruit.vue";
 import Num from "./Num.vue";
 import Victory from "./Victory.vue";
 import { allTips, type Tip } from "../tips.ts";
+import RetreatResults from "./RetreatResults.vue";
 const props = defineProps<{
   testMode: boolean;
 }>();
@@ -245,6 +246,7 @@ for (const enemy of Object.values(enemiesByName)) {
   <div class="passive-effect" v-for="effect in passiveEffects" v-html="effect" />
   <Victory :show="!!store.run.timers.celebrating" @on-start="hideActions = true;" @on-end="hideActions = false;"
     :skelemasterion="enemy?.name === 'Skelemasterion'" />
+  <RetreatResults />
   <div class="actions" v-show="!hideActions">
     <template v-for="ab in st.abilities.value" :key="ab.name">
       <SlowButton v-if="store.run.steps > 0 && (fighting || ab.peaceful)" :timer-key="`ability-${ab.name}`"
