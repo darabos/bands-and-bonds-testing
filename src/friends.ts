@@ -102,6 +102,7 @@ The only way to defend against his attacks is to dodge them or wear layers of he
       duration: 5,
       tags: ['poison'],
       description: (store) => store.run.room.poison ? `Damage over time. (Currently ${numberSpan(store.run.room.poison)} damage per second.)` : 'Damage over time.',
+      damage: 1,
       onCompleted(store, times, self) {
         const e = store.abilityEffects(self);
         const hits = e.rndHits(times);
@@ -112,12 +113,13 @@ The only way to defend against his attacks is to dodge them or wear layers of he
       name: 'Dark Sommelier',
       description: `
 A master of the culinary arts, Dark Sommelier fights by poisoning the enemies.
-The airborne poison can not be dodged. The only way to defend against his attacks is to wear layers of heavy armor.
+The airborne poison cannot be dodged. The only way to defend against his attacks is to wear layers of heavy armor.
 `,
       abilities: [{
         name: "Poison Strike",
         duration: 5,
         tags: ['poison', 'undodgeable'],
+        damage: 10,
         description: (store) => store.run.room.poison ? `Poison the air. (Currently ${numberSpan(store.run.room.poison)} damage per second.)` : 'Poison the air.',
         onCompleted(store, times, self) {
           const e = store.abilityEffects(self);
