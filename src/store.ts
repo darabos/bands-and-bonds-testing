@@ -282,16 +282,20 @@ function takeTurn(turn: string) {
   }
 }
 
-export function describeAbility(ab: base.Ability, e: base.AbilityEffects): string {
+export function describeAbility(ab: base.Ability, e: base.AbilityEffects, catalogMode?: boolean): string {
   let d = ab.description;
   if (typeof d === "function") {
     d = d(store, ab);
   }
   if (ab.damage) {
-    const dmg = Math.floor(getAbilityBaseDamage(ab) * e.baseMultiplier);
+    const baseDamage = getAbilityBaseDamage(ab);
+    const dmg = Math.floor(baseDamage * e.baseMultiplier);
     const text = e.enemyMultiplier !== 1 ?
       `${base.numberFormat(e.enemyMultiplier)} × ${base.numberFormat(dmg)}` : base.numberFormat(dmg);
     d += `\n\n<span class="numbers">${text}</span> damage`;
+    if (catalogMode && baseDamage !== dmg) {
+      d += ` (base: <span class="numbers">${base.numberFormat(baseDamage)}</span>)`;
+    }
   }
   return d;
 }
@@ -307,6 +311,16 @@ export function abilityDuration(ab: base.Ability) {
     return ab.duration(store);
   }
   return ab.duration;
+}
+
+export function modifiedDurationFormat(duration: number | undefined, affectedBySpeedLevel: boolean) {
+  if (!duration) return "";
+  let d = affectedBySpeedLevel ? duration / store.run.speedLevel : duration;
+  const enemy = store.currentEnemy();
+  if (enemy && store.run.room.damage < enemy.health) {
+    d *= enemy.slowTime ?? 1;
+  }
+  return base.durationFormat(d);
 }
 
 export function abilityCost(ab: base.Ability): base.Resources {

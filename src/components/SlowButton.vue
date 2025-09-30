@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { marked } from 'marked';
 import { computed, onUnmounted, ref, watch, type PropType } from 'vue';
-import { store } from '../store.ts';
+import { store, modifiedDurationFormat } from '../store.ts';
 import Fruit from './Fruit.vue';
 import Gold from './Gold.vue';
 import Saplings from './Saplings.vue';
@@ -12,7 +12,7 @@ const props = defineProps({
   tags: { type: Array, required: false },
   image: { type: String, required: true },
   duration: { type: Number, required: false },
-  displayDuration: { type: Number, required: false },
+  catalogMode: { type: Boolean, required: false },
   description: { type: String, required: false },
   autostart: { type: Boolean, default: false },
   affectedBySpeedLevel: { type: Boolean, default: false },
@@ -89,15 +89,8 @@ onUnmounted(() => {
   }
 });
 
-const duration = computed(() => {
-  if (!props.duration) return "";
-  let d = props.affectedBySpeedLevel ? props.duration / store.run.speedLevel : props.duration;
-  const enemy = store.currentEnemy();
-  if (enemy && store.run.room.damage < enemy.health) {
-    d *= enemy.slowTime ?? 1;
-  }
-  return durationFormat(d);
-});
+const duration = computed(() => modifiedDurationFormat(props.duration, props.affectedBySpeedLevel));
+const baseDuration = computed(() => props.duration ? durationFormat(props.duration) : undefined);
 </script>
 
 <template>
@@ -122,7 +115,10 @@ const duration = computed(() => {
       <div class="title">{{ props.title }}</div>
       <div class="description" v-html="description"></div>
       <div v-show="running" class="duration numbers">{{ duration }}</div>
-      <div v-if="displayDuration" class="duration numbers">{{ durationFormat(props.displayDuration ?? 0) }}</div>
+      <div v-if="catalogMode" class="duration numbers">
+        {{ duration }}
+        <template v-if="baseDuration && duration !== baseDuration"> (base: {{ baseDuration }}) </template>
+      </div>
     </div>
   </button>
 </template>
