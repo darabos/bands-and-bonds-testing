@@ -96,10 +96,12 @@ export const store: base.Store = {
     cost.gold ??= 0;
     cost.fruit ??= 0;
     cost.saplings ??= 0;
-    if (store.run.gold < cost.gold || store.run.fruit < cost.fruit || store.run.saplings < cost.saplings) return; // Not enough resources.
-    store.run.gold -= cost.gold || 0;
-    store.run.fruit -= cost.fruit || 0;
-    store.run.saplings -= cost.saplings || 0;
+    if (key !== 'buy-pack') {
+      if (store.run.gold < cost.gold || store.run.fruit < cost.fruit || store.run.saplings < cost.saplings) return; // Not enough resources.
+      store.run.gold -= cost.gold || 0;
+      store.run.fruit -= cost.fruit || 0;
+      store.run.saplings -= cost.saplings || 0;
+    }
     store.run.timers[key] = t;
   },
   timerFinished(key: string, t: base.Timer, times: number) {
@@ -441,6 +443,17 @@ function findAbility(key: string): base.Ability | undefined {
   }
 }
 
+function buyPack() {
+  const nextCost = base.costOfPacks(store.team.packs + 1);
+  if (store.team.fruit + store.run.fruit < nextCost) return;
+  if (store.team.fruit < nextCost) {
+    // Automatically convert run fruit to team fruit if needed.
+    store.run.fruit -= nextCost - store.team.fruit;
+    store.team.fruit = nextCost;
+  }
+  store.team.packs += 1;
+}
+
 function timerFinished(key: string, timer: base.Timer, times: number) {
   delete store.run.timers[key];
   if (key === 'rescue-unlock') {
@@ -449,6 +462,8 @@ function timerFinished(key: string, timer: base.Timer, times: number) {
     takePlannedTurn(plannedTurn.value.title);
     store.startTimer(key, timer);
     return;
+  } else if (key === 'buy-pack') {
+    return buyPack();
   }
   const ab = findAbility(key);
   if (!ab) return;
