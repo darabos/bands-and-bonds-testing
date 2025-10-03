@@ -444,13 +444,7 @@ function findAbility(key: string): base.Ability | undefined {
 }
 
 function buyPack() {
-  const nextCost = base.costOfPacks(store.team.packs + 1);
-  if (store.team.fruit + store.run.fruit < nextCost) return;
-  if (store.team.fruit < nextCost) {
-    // Automatically convert run fruit to team fruit if needed.
-    store.run.fruit -= nextCost - store.team.fruit;
-    store.team.fruit = nextCost;
-  }
+  if (store.team.fruit < base.costOfPacks(store.team.packs + 1)) return;
   store.team.packs += 1;
 }
 

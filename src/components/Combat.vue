@@ -9,7 +9,6 @@ import Progress from "./Progress.vue";
 import { computed, defineProps, ref, watch } from "vue";
 import EnemyRewards from "./EnemyRewards.vue";
 import Fruit from "./Fruit.vue";
-import Packs from "./Packs.vue";
 import Num from "./Num.vue";
 import Victory from "./Victory.vue";
 import { allTips, type Tip } from "../tips.ts";
