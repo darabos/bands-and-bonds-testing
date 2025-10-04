@@ -301,10 +301,9 @@ for (const enemy of Object.values(enemiesByName)) {
         </div>
       </div>
     </button>
-    <SlowButton v-if="store.run.steps === 0" timer-key="buy-pack" :duration="500" title="Buy Provisions" description="
-The trader by the dungeon's entrance is eager to exchange your
-<img src='/images/generated/fruit.webp' class='resource-icon resource-icon-solo' />
-for <span class='numbers'>1 <img src='/images/generated/pack.webp' class='resource-icon' /></span>.
+    <SlowButton v-if="store.run.steps === 0" timer-key="buy-pack" :duration="300" title="Buy Provisions" description="
+The trader by the dungeon's entrance is can sell you
+<span class='numbers'>1 <img src='/images/generated/pack.webp' class='resource-icon' /></span>.
     " image="images/generated/Buy Pack.webp" :automatic="true"
       :cost="{ fruit: costOfPacks(store.team.packs + 1) - costOfPacks(store.team.packs), gold: 0, saplings: 0 }" />
   </div>

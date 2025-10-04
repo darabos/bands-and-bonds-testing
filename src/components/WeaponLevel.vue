@@ -14,7 +14,7 @@ const image = computed(() => props.permanent ? 'victory3' : 'victory4');
   <template v-if="props.amount === undefined">
     <img :src="`/images/generated/${image}.webp`" class="resource-icon resource-icon-solo" />
   </template>
-  <template v-else-if="props.startAmount === undefined || props.startAmount === props.amount">
+  <template v-else-if="props.startAmount === undefined">
     <Num :amount="props.amount">
       <img :src="`/images/generated/${image}.webp`" class="resource-icon" />
     </Num>

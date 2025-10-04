@@ -12,7 +12,7 @@ const props = defineProps<{
   <template v-if="props.amount === undefined">
     <img src="/images/generated/fruit.webp" class="resource-icon resource-icon-solo" />
   </template>
-  <template v-else-if="props.startAmount === undefined || props.startAmount === props.amount">
+  <template v-else-if="props.startAmount === undefined">
     <Num :amount="props.amount">
       <img src="/images/generated/fruit.webp" class="resource-icon" />
     </Num>
