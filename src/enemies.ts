@@ -175,11 +175,11 @@ const enemyAbilities: Record<string, Ability[]> = {
   }, {
     name: "Time Burp", duration: 2, description: "Pushes time forward.", peaceful: true, affectedBySpeedLevel: true,
     onCompleted(store, times) {
-      const speed = Math.log(store.run.speedLevel);
-      const factor = 1 + speed / (speed + 5);
+      const speed = store.run.speedLevel;
+      const factor = 1 + speed / (speed + 200);
       // At factor = 1 it's a 2x speedup. At factor = 2 it's theoretically infinite speedup.
-      // We gently go from 1 to 2 as the speed level grows.
-      store.run.skipTime += 1_000 * times * factor / store.run.speedLevel;
+      // The formula above gives a speedup of speed/100+2.
+      store.run.skipTime += 1_000 * times * factor / speed;
     },
   }],
   "Glass Dragon": [{ name: "Shatter", duration: 1, damage: 100_000, description: "The repairs are expensive.", consumes: { gold: 100 }, tags: ['sharp'] }],
