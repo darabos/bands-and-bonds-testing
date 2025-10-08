@@ -73,9 +73,9 @@ const duration = { enter: 500, leave: 0 };
                 :start-amount="reveal < 6 ? undefined : store.team.fruit - costOfPacks(store.team.packs) - lastRun.fruit"
                 :amount="store.team.fruit - costOfPacks(store.team.packs)" />
             </td>
-            <td v-if="store.team.bestWeaponLevel > 1">
-              <WeaponLevel :amount="store.team.bestWeaponLevel" :permanent="true"
-                :start-amount="reveal < 6 ? undefined : store.team.bestWeaponLevel - weaponLevelPreserved" />
+            <td v-if="weaponLevelPreserved > 0">
+              <WeaponLevel :amount="store.weaponLevel()" :permanent="true"
+                :start-amount="reveal < 6 ? undefined : store.weaponLevel() - weaponLevelPreserved" />
             </td>
           </tr>
         </Transition>

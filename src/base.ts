@@ -68,7 +68,8 @@ export type LocalData = {
 export type TeamData = {
   fruit: number;
   packs: number;
-  bestWeaponLevel: number;
+  bestWeaponLevel?: number; // The old way — for compatibility.
+  permanentWeaponLevel?: number; // The new way.
   unlocked: string[]; // Friend names.
   discovered: string[]; // Room keys.
   name: string;
@@ -80,6 +81,7 @@ export function startingTeamData(): TeamData {
     fruit: 1,
     packs: 1,
     bestWeaponLevel: 1,
+    permanentWeaponLevel: 0,
     unlocked: ['Stick Master'],
     discovered: [],
     name: 'Unnamed Guild',

@@ -13,6 +13,7 @@ import Num from "./Num.vue";
 import Victory from "./Victory.vue";
 import { allTips, type Tip } from "../tips.ts";
 import RetreatResults from "./RetreatResults.vue";
+import WeaponLevel from "./WeaponLevel.vue";
 const props = defineProps<{
   testMode: boolean;
 }>();
@@ -291,7 +292,19 @@ for (const enemy of Object.values(enemiesByName)) {
         <div class="description">
           <p>
             Leave the dungeon and return to safety.
-            <template v-if="store.run.fruit > 0">
+            <template v-if="store.run.fruit > 0 && store.run.weaponLevelAdded > 0 && st.onboard('Anvilominator')">
+              You start over, but keep the
+              <Fruit :amount="store.run.fruit" /> you've collected.
+              Anvilominator will make
+              <WeaponLevel :amount="store.run.weaponLevelAdded" :permanent="false" /> permanent.
+            </template>
+            <template v-else-if="store.run.fruit > 0 && store.run.weaponLevelAdded > 0 && st.onboard('Anvilomancer')">
+              You start over, but keep the
+              <Fruit :amount="store.run.fruit" /> you've collected.
+              Anvilomancer will make
+              <WeaponLevel :amount="Math.floor(Math.sqrt(store.run.weaponLevelAdded))" :permanent="false" /> permanent.
+            </template>
+            <template v-else-if="store.run.fruit > 0">
               You start over, but keep the
               <Fruit :amount="store.run.fruit" /> you've collected.
               Spend it on your band!
@@ -302,9 +315,9 @@ for (const enemy of Object.values(enemiesByName)) {
       </div>
     </button>
     <SlowButton v-if="store.run.steps === 0" timer-key="buy-pack" :duration="300" title="Buy Provisions" description="
-The trader by the dungeon's entrance is can sell you
-<span class='numbers'>1 <img src='/images/generated/pack.webp' class='resource-icon' /></span>.
-    " image="images/generated/Buy Pack.webp" :automatic="true"
+A trader by the dungeon's entrance offers you
+<span class='numbers'>1&nbsp;<img src='images/generated/pack.webp' class='resource-icon' /></span>.
+    " image="/images/generated/Buy Pack.webp" :automatic="true"
       :cost="{ fruit: costOfPacks(store.team.packs + 1) - costOfPacks(store.team.packs), gold: 0, saplings: 0 }" />
   </div>
 </template>

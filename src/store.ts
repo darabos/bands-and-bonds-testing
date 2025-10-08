@@ -178,10 +178,13 @@ export const store: base.Store = {
     return abilityEffects(ab);
   },
   weaponLevel() {
+    const best = store.team.bestWeaponLevel ?? 1;
+    const perm = store.team.permanentWeaponLevel ?? 0;
+    const added = store.run.weaponLevelAdded;
     if (onboard("Anvilominator")) {
-      return store.team.bestWeaponLevel + store.run.weaponLevelAdded;
+      return best + perm + added;
     }
-    return Math.floor(Math.sqrt(store.team.bestWeaponLevel)) + store.run.weaponLevelAdded;
+    return Math.floor(Math.sqrt(best)) + perm + added;
   },
 }
 
@@ -516,8 +519,16 @@ export function retreat() {
   if (store.run.fruit) {
     store.team.fruit += store.run.fruit;
   }
-  if (store.weaponLevel() > store.team.bestWeaponLevel) {
-    store.team.bestWeaponLevel = store.weaponLevel();
+  const hadAnvilomancer = !!onboard("Anvilomancer");
+  const hadAnvilominator = !!onboard("Anvilominator");
+  {// Update weapon level.
+    const perm = store.team.permanentWeaponLevel ?? 0;
+    const added = store.run.weaponLevelAdded;
+    if (added && hadAnvilominator) {
+      store.team.permanentWeaponLevel = perm + added;
+    } else if (added && hadAnvilomancer) {
+      store.team.permanentWeaponLevel = perm + Math.floor(Math.sqrt(added));
+    }
   }
   const capturedMonsters = store.run.capturedMonsters;
   const packsBought: number[] = [];
@@ -527,8 +538,8 @@ export function retreat() {
   }
   lastRun.value = {
     ...store.run,
-    hadAnvilomancer: !!onboard("Anvilomancer"),
-    hadAnvilominator: !!onboard("Anvilominator"),
+    hadAnvilomancer,
+    hadAnvilominator,
     packsBought,
   };
   Object.assign(store.run, startingRunData());
