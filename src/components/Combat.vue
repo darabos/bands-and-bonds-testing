@@ -317,7 +317,7 @@ for (const enemy of Object.values(enemiesByName)) {
     <SlowButton v-if="store.run.steps === 0" timer-key="buy-pack" :duration="300" title="Buy Provisions" description="
 A trader by the dungeon's entrance offers you
 <span class='numbers'>1&nbsp;<img src='images/generated/pack.webp' class='resource-icon' /></span>.
-    " image="/images/generated/Buy Pack.webp" :automatic="true"
+    " image="images/generated/Buy Pack.webp" :automatic="true"
       :cost="{ fruit: costOfPacks(store.team.packs + 1) - costOfPacks(store.team.packs), gold: 0, saplings: 0 }" />
   </div>
 </template>

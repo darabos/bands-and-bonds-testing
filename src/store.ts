@@ -83,7 +83,6 @@ export const teamData = reactive<base.TeamData>(loadData('bnb-team', base.starti
 type LastRun = base.RunData & {
   hadAnvilomancer: boolean,
   hadAnvilominator: boolean,
-  packsBought: number[],
 };
 export const lastRun = ref<LastRun | undefined>(undefined);
 export const store: base.Store = {
@@ -530,21 +529,14 @@ export function retreat() {
       store.team.permanentWeaponLevel = perm + Math.floor(Math.sqrt(added));
     }
   }
-  const capturedMonsters = store.run.capturedMonsters;
-  const packsBought: number[] = [];
-  while (store.team.fruit >= base.costOfPacks(store.team.packs + 1)) {
-    store.team.packs += 1;
-    packsBought.push(base.costOfPacks(store.team.packs) - base.costOfPacks(store.team.packs - 1));
-  }
   lastRun.value = {
     ...store.run,
     hadAnvilomancer,
     hadAnvilominator,
-    packsBought,
   };
   Object.assign(store.run, startingRunData());
   if (onboard("Monster Juggler")) {
-    store.run.capturedMonsters = capturedMonsters;
+    store.run.capturedMonsters = lastRun.value.capturedMonsters;
   }
 }
 
