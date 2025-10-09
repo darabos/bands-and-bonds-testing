@@ -66,20 +66,20 @@ const hoveredEnemy = computed(() => hoveredRoom.value?.name ? enemiesByName[hove
 const discoveredLines = computed(() => {
   function getSegments(rooms: Room[], segments: Set<string>) {
     const last = rooms[rooms.length - 1];
-    if (last.end || last !== allRooms[0] && last.type !== 'none' && !store.team.discovered.includes(roomKey(last))) {
+    if (last.end || last.next || last !== allRooms[0] && last.type !== 'none' && !store.team.discovered.includes(roomKey(last))) {
       let prevPos: string | null = null;
       for (const s of cl.curvedLineSegments(20, scale.value, rooms)) {
         if (prevPos)
           segments.add(`M ${prevPos} ${s}`);
         prevPos = s.split(' ').slice(-2).join(' ');
       }
-    } else {
-      const nextRooms: Room[] = last.next ?
-        Object.values(last.next).map(n => allRooms[roomsByLabel[n.label!]])
-        : last.end ? [] : [allRooms[(last.index ?? 0) + 1]];
-      for (const next of nextRooms) {
-        getSegments([...rooms, next], segments);
-      }
+      if (!last.next) return;
+    }
+    const nextRooms: Room[][] = last.next ?
+      Object.values(last.next).map(n => [last, allRooms[roomsByLabel[n.label!]]])
+      : last.end ? [] : [[...rooms, allRooms[(last.index ?? 0) + 1]]];
+    for (const path of nextRooms) {
+      getSegments(path, segments);
     }
   }
   const segments = new Set<string>();

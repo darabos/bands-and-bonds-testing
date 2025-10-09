@@ -154,7 +154,7 @@ const enemyAbilities: Record<string, Ability[]> = {
   "Wild Slime": [{ name: "Slobber", duration: 5, damage: 1, description: "Cover the enemy in slime." }],
   "Poison Crow": [{
     name: "Crow Blast", duration: 5, description: "An explosion of feathers and poison.",
-    tags: ['poison'],
+    tags: ['poison'], damage: 10,
     onCompleted(store, times, self) {
       const e = store.abilityEffects(self);
       const hits = e.rndHits(times);
@@ -210,7 +210,7 @@ const enemyAbilities: Record<string, Ability[]> = {
   "Chago's Chamber": [],
   "Chago": [{
     name: "Create Cheese Demon", duration: 300, description: "Chago releases a demon to chew on the enemy.",
-    tags: ['bite'],
+    tags: ['bite'], damage: 160_000,
     onCompleted(store, times, self) {
       const e = store.abilityEffects(self);
       const hits = e.rndHits(times);
@@ -289,7 +289,7 @@ This negates the defenses of ethereal enemies.`,
     { name: "Ivory Stripe", tags: ['light'], duration: 100, damage: 30_000, description: "The white stripes connect to the light of the heavens." },
   ],
   "Dragonfly Agaric": [{
-    name: "Agaric Poison Strike", tags: ['poison'], duration: 5, description: "The deadly poison of the Dragonfly Agaric causes great damage over time.",
+    name: "Agaric Poison Strike", tags: ['poison'], duration: 5, description: "The deadly poison of the Dragonfly Agaric causes great damage over time.", damage: 20,
     onCompleted(store, times, self) {
       const e = store.abilityEffects(self);
       const hits = e.rndHits(times);
@@ -307,6 +307,7 @@ Have these chests always been around us?`,
   "Golden Chest": [],
   "King of Tadpoles": [{
     name: "Recruit Tadpole", duration: 30, description: "The king sends a tadpole to battle.", tags: ['bite'],
+    damage: 60,
     onCompleted(store, times, self) {
       const e = store.abilityEffects(self);
       const hits = e.rndHits(times);

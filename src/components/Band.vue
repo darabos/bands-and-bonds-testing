@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import SlowButton from "./SlowButton.vue";
-import { store, bandByName, describeAbility, abilityCost, abilityTags, friendAt, nextTo, onboard } from "../store.ts";
+import { store, friendAt, nextTo, onboard } from "../store.ts";
+import * as st from "../store.ts";
 import { friendsByName } from "../friends.ts";
 import Packs from "./Packs.vue";
 
@@ -210,7 +211,7 @@ const enabled = computed(() => {
             to afford adding {{ selected }} to the band
           </div>
         </template>
-        <template v-if="row === 2 && col === 3 && onboard('Lamplighter') && Object.keys(bandByName).length === 1">
+        <template v-if="row === 2 && col === 3 && onboard('Lamplighter') && Object.keys(st.bandByName).length === 1">
           <div v-if="!enabled" class="band-tutorial-narrow">
             Retreat to make changes to the band
           </div>
@@ -256,12 +257,12 @@ const enabled = computed(() => {
       <h1>{{ selectedFriend.name }}</h1>
       <div class="description" v-html="selectedFriend.descriptionHtml"></div>
       <template v-for="ab in selectedFriend.abilities" :key="ab.name">
-        <SlowButton :title="ab.name"
-          :display-duration="typeof ab.duration === 'number' ? 1000 * ab.duration : undefined"
-          :description="describeAbility(ab, { hitChance: 1, damageMultiplier: 1, baseMultiplier: 1, enemyMultiplier: 1, rndHits: () => 1 })"
+        <SlowButton :title="ab.name" :catalog-mode="true"
+          :description="st.describeAbility(ab, st.abilityEffects(ab), true)" :duration="st.abilityDuration(ab) * 1000"
+          :affectedBySpeedLevel="ab.affectedBySpeedLevel ?? !ab.peaceful"
           :image="`images/generated/${ab.image ?? ab.name}.webp`" v-if="!ab.hideInDescription || !ab.hidden?.(store)"
-          :cost="abilityCost(ab)"
-          :tags="onboard('Desert Rabbit') && abilityTags({ ...ab, source: onboard(selected) })" />
+          :cost="st.abilityCost(ab)"
+          :tags="onboard('Desert Rabbit') && st.abilityTags({ ...ab, source: onboard(selected) })" />
       </template>
     </div>
   </div>
