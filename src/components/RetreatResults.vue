@@ -11,6 +11,7 @@ const weaponLevelPreserved = computed(() => {
     ? Math.floor(Math.sqrt(lastRun.value.weaponLevelAdded))
     : 0;
 });
+const show = computed(() => !!lastRun.value && (lastRun.value.fruit > 0 || lastRun.value.weaponLevelAdded > 0));
 watch(lastRun, (newValue, oldValue) => {
   if (newValue && !oldValue) {
     reveal.value = 0;
@@ -19,16 +20,16 @@ watch(lastRun, (newValue, oldValue) => {
       if (reveal.value >= 6) {
         clearInterval(interval);
       }
-    }, 250);
+    }, 150);
   }
-});
-const duration = { enter: 500, leave: 0 };
+}, { immediate: true });
+const duration = { enter: 300, leave: 0 };
 </script>
 
 <template>
   <div class="retreat-results">
     <Transition :duration="duration">
-      <h1 v-if="lastRun" class="header-top">
+      <h1 v-if="show" class="header-top">
         <img src="/images/generated/fruit.webp" class="decoration-1" />
         <img src="/images/generated/fruit.webp" class="decoration-2" />
         <img src="/images/generated/fruit.webp" class="decoration-3" />
@@ -38,7 +39,7 @@ const duration = { enter: 500, leave: 0 };
         <img src="/images/generated/fruit.webp" class="decoration-1" />
       </h1>
     </Transition>
-    <table class="math" v-if="lastRun && (lastRun.fruit > 0 || lastRun.weaponLevelAdded > 0)">
+    <table class="math" v-if="show">
       <tbody>
         <Transition :duration="duration">
           <tr v-if="reveal >= 1" :style="{ opacity: reveal >= 2 ? '1' : '0' }">
@@ -46,15 +47,15 @@ const duration = { enter: 500, leave: 0 };
               Collected:
             </td>
             <td>
-              <Fruit :amount="lastRun.fruit" :start-amount="reveal >= 2 ? 1 : undefined" />
+              <Fruit :amount="lastRun!.fruit" :start-amount="reveal >= 2 ? 1 : undefined" />
             </td>
-            <td v-if="lastRun.weaponLevelAdded > 0">
-              <WeaponLevel :amount="lastRun.weaponLevelAdded" :start-amount="reveal < 2 ? undefined : 1" />
+            <td v-if="lastRun!.weaponLevelAdded > 0">
+              <WeaponLevel :amount="lastRun!.weaponLevelAdded" :start-amount="reveal < 2 ? undefined : 1" />
             </td>
           </tr>
         </Transition>
         <Transition>
-          <tr v-if="reveal >= 3 && weaponLevelPreserved > 0 && lastRun.hadAnvilomancer"
+          <tr v-if="reveal >= 3 && weaponLevelPreserved > 0 && lastRun!.hadAnvilomancer"
             :style="{ opacity: reveal >= 4 ? '1' : '0' }">
             <td colspan="2" class="label">
               Anvilomancer preserves:
@@ -70,7 +71,7 @@ const duration = { enter: 500, leave: 0 };
             <td class="label">You have:</td>
             <td>
               <Fruit
-                :start-amount="reveal < 6 ? undefined : store.team.fruit - costOfPacks(store.team.packs) - lastRun.fruit"
+                :start-amount="reveal < 6 ? undefined : store.team.fruit - costOfPacks(store.team.packs) - lastRun!.fruit"
                 :amount="store.team.fruit - costOfPacks(store.team.packs)" />
             </td>
             <td v-if="weaponLevelPreserved > 0">
@@ -82,7 +83,7 @@ const duration = { enter: 500, leave: 0 };
       </tbody>
     </table>
     <Transition :duration="duration">
-      <h1 v-if="lastRun" class="header-bottom">
+      <h1 v-if="show" class="header-bottom">
         <img src="/images/generated/fruit.webp" class="decoration-1" />
         <img src="/images/generated/fruit.webp" class="decoration-2" />
         <img src="/images/generated/fruit.webp" class="decoration-3" />
@@ -101,7 +102,7 @@ const duration = { enter: 500, leave: 0 };
 td {
   text-align: right;
   padding: 0 30px;
-  transition: font-size 0.25s;
+  transition: font-size 0.15s;
 }
 
 .decoration-1 {
@@ -125,7 +126,7 @@ td {
   border-bottom: none;
   margin: 0;
   padding: 2px 20px;
-  transition: opacity 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 
 .header-top {
@@ -151,7 +152,7 @@ td.label {
 }
 
 tr {
-  transition: opacity 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 
 tr.v-enter-from td {

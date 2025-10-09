@@ -88,7 +88,8 @@ function runTo(currentTime: number) {
 }
 
 const fruit = computed(() => store.team.fruit + store.run.fruit - costOfPacks(store.team.packs));
-const showResources = computed(() => page.value !== 'combat' || !lastRun.value);
+const showResources = computed(() =>
+  page.value !== 'combat' || !lastRun.value || lastRun.value.fruit === 0 && lastRun.value.weaponLevelAdded === 0);
 
 onMounted(() => {
   animationFrameId.value = requestAnimationFrame(mainLoop);

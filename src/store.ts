@@ -459,7 +459,11 @@ function timerFinished(key: string, timer: base.Timer, times: number) {
     store.startTimer(key, timer);
     return;
   } else if (key === 'buy-pack') {
-    return buyPack();
+    buyPack();
+    if (timer.automatic && store.team.fruit >= base.costOfPacks(store.team.packs + 1)) {
+      store.startTimer(key, timer);
+    }
+    return;
   }
   const ab = findAbility(key);
   if (!ab) return;

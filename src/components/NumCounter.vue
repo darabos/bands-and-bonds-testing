@@ -10,12 +10,12 @@ const num = computed(() =>
 );
 let percent = ref(0);
 const interval = setInterval(() => {
-  percent.value += 2.5;
+  percent.value += 3;
   if (percent.value >= 100) {
     percent.value = 100;
     clearInterval(interval);
   }
-}, 25);
+}, 15);
 </script>
 
 <template>

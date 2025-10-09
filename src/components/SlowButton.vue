@@ -104,9 +104,9 @@ const duration = computed(() => {
 
 <template>
   <button @click="start()" @pointerdown="pointerDown = true; start();" @pointerup="pointerDown = false"
-    @blur="if (props.timerKey) store.run.lastHeld = undefined;" @pointercancel="pointerDown = false"
-    @pointerleave="pointerDown = false" :style="style()" :class="{ 'can-hold': true, disabled: !affordable || running }"
-    class="slow">
+    @blur="if (props.timerKey === store.run.lastHeld) store.run.lastHeld = undefined;"
+    @pointercancel="pointerDown = false" @pointerleave="pointerDown = false" :style="style()"
+    :class="{ 'can-hold': true, disabled: !affordable || running }" class="slow">
     <div>
       <img v-bind:src="props.image" />
       <div class="tags"><span v-for="tag in props.tags" class="tag" :class="tag"></span></div>
