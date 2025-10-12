@@ -7,9 +7,11 @@ import { computed, ref, watch } from "vue";
 const reveal = ref(0);
 const weaponLevelPreserved = computed(() => {
   if (!lastRun.value) return 0;
-  return lastRun.value.hadAnvilomancer
-    ? Math.floor(Math.sqrt(lastRun.value.weaponLevelAdded))
-    : 0;
+  return lastRun.value.hadAnvilominator
+    ? lastRun.value.weaponLevelAdded
+    : lastRun.value.hadAnvilomancer
+      ? Math.floor(Math.sqrt(lastRun.value.weaponLevelAdded))
+      : 0;
 });
 const show = computed(() => !!lastRun.value && (lastRun.value.fruit > 0 || lastRun.value.weaponLevelAdded > 0));
 watch(lastRun, (newValue, oldValue) => {
@@ -57,7 +59,10 @@ const duration = { enter: 300, leave: 0 };
         <Transition>
           <tr v-if="reveal >= 3 && weaponLevelPreserved > 0 && lastRun!.hadAnvilomancer"
             :style="{ opacity: reveal >= 4 ? '1' : '0' }">
-            <td colspan="2" class="label">
+            <td colspan="2" class="label" v-if="lastRun!.hadAnvilominator">
+              Anvilominator preserves:
+            </td>
+            <td colspan="2" class="label" v-else>
               Anvilomancer preserves:
             </td>
             <td>
