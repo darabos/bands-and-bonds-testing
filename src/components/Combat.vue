@@ -218,7 +218,7 @@ for (const enemy of Object.values(enemiesByName)) {
         class="friend" />
       <h1>{{ st.justRescued.value?.name }}</h1>
       <p class="description is-rescued" style="margin-top: 0; text-align: center; color: #edb;">is rescued!</p>
-      <div class="description" v-html="st.justRescued.value?.descriptionHtml"></div>
+      <div class="description" style="margin-bottom: 15px;" v-html="st.justRescued.value?.descriptionHtml"></div>
       <div class="abilities" v-for="ab in st.justRescued.value?.abilities" :key="ab.name">
         <SlowButton :title="ab.name"
           :display-duration="typeof ab.duration === 'number' ? 1000 * ab.duration : undefined"
@@ -488,10 +488,6 @@ A trader by the dungeon's entrance offers you
   h1 {
     margin-top: -15px;
     margin-bottom: 0px;
-  }
-
-  .abilities {
-    margin-top: 15px;
   }
 }
 
