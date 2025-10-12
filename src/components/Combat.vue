@@ -285,7 +285,8 @@ for (const enemy of Object.values(enemiesByName)) {
         </div>
       </button>
     </template>
-    <button @click="retreat()" @blur="retreatConfirmation = false" accesskey="r" v-if="store.run.steps > 0">
+    <button @click="retreat()" @blur="retreatConfirmation = false" accesskey="r"
+      v-if="store.run.steps > 0 && st.plannedTurn.value?.title !== 'Retreat'">
       <img src="/images/generated/Retreat.webp" />
       <div class="text">
         <div class="title">Retreat</div>
