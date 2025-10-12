@@ -110,11 +110,12 @@ const bonds = computed(() => {
       if (!name) continue;
       const friend = friendsByName[name];
       const f = nextTo('Azrekta', row, col) ? friend.super ?? friend : friend;
+      const abilities = f?.abilities ?? friend.abilities ?? [];
       const image = 'chain';
       for (const nn of ['Azrekta', 'Lord of Gears', 'The Silent Song', 'Campfinder']) {
         if (nn === 'Azrekta' && !friend.super) continue;
-        if (nn === 'Lord of Gears' && !f.abilities?.some(ab => !ab.preventAutomation)) continue;
-        if (nn === 'The Silent Song' && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark') && f.abilities?.every(ab => !ab.damage || ab.hidden?.(store))) continue;
+        if (nn === 'Lord of Gears' && !abilities.some(ab => !ab.preventAutomation)) continue;
+        if (nn === 'The Silent Song' && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark') && abilities.every(ab => !ab.damage || ab.hidden?.(store))) continue;
         const bond = nextTo(nn, row, col);
         if (bond) {
           bonds.push({
