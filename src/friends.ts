@@ -497,7 +497,7 @@ In the Landas Deserts the mages punish loud people by turning their bodies into 
 The Eighth Swimmer was one of these unlucky souls. Imagine walking among thirsty people
 everyday with a body made of water.
 
-They found refuge in this dungeon and now in your band.
+They sought refuge in this dungeon and now found it in your band.
     `,
     abilities: [{
       name: "Flood",

@@ -115,7 +115,10 @@ const bonds = computed(() => {
       for (const nn of ['Azrekta', 'Lord of Gears', 'The Silent Song', 'Campfinder']) {
         if (nn === 'Azrekta' && !friend.super) continue;
         if (nn === 'Lord of Gears' && !abilities.some(ab => !ab.preventAutomation)) continue;
-        if (nn === 'The Silent Song' && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark') && abilities.every(ab => !ab.damage || ab.hidden?.(store))) continue;
+        if (
+          (nn === 'The Silent Song' || nn === 'Campfinder')
+          && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark')
+          && abilities.every(ab => !ab.damage || ab.hidden?.(store))) continue;
         const bond = nextTo(nn, row, col);
         if (bond) {
           bonds.push({

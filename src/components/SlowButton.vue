@@ -15,6 +15,7 @@ const props = defineProps({
   catalogMode: { type: Boolean, required: false },
   description: { type: String, required: false },
   autostart: { type: Boolean, default: false },
+  holdAutomatically: { type: Boolean, default: true },
   affectedBySpeedLevel: { type: Boolean, default: false },
   cost: { type: Object as PropType<Resources>, default: () => ({ gold: 0, fruit: 0, saplings: 0 }) },
 });
@@ -73,7 +74,7 @@ watch(pointerDown, (newVal) => {
   if (!newVal) {
     if (store.run.lastHeld === props.timerKey) {
       store.run.lastHeld = undefined;
-    } else {
+    } else if (props.holdAutomatically) {
       store.run.lastHeld = props.timerKey;
     }
   }
