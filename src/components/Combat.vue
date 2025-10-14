@@ -5,7 +5,7 @@ import { enemiesByName } from "../enemies.ts";
 import { roomsByKey } from "../rooms.ts";
 import { numberFormat, durationFormat, costOfPacks, type Ability } from "../base.ts";
 import SlowButton from "./SlowButton.vue";
-import Progress from "./Progress.vue";
+import HealthBar from "./HealthBar.vue";
 import { computed, defineProps, ref, watch } from "vue";
 import EnemyRewards from "./EnemyRewards.vue";
 import Fruit from "./Fruit.vue";
@@ -209,8 +209,9 @@ for (const enemy of Object.values(enemiesByName)) {
   </div>
   <div class="enemy-sticky"
     v-if="enemy && (!enemy.eulogy || enemy.health > store.run.room.damage || store.run.timers.celebrating)">
-    <Progress :value="enemy.health - store.run.room.damage" :max="enemy.health" color="#c00" label="HP" />
-    <Progress v-if="enemy.armor" :value="enemy.armor - store.run.room.armorDamage" :max="enemy.armor" color="#666"
+    <HealthBar :value="enemy.health - store.run.room.damage" :max="enemy.health" color="#c00" label="HP"
+      :regen="enemy.regen" />
+    <HealthBar v-if="enemy.armor" :value="enemy.armor - store.run.room.armorDamage" :max="enemy.armor" color="#666"
       label="Armor" title="Armor is subtracted from damage" />
   </div>
   <Transition mode="out-in" :duration="props.testMode ? 0 : undefined">

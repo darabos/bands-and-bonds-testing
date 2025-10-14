@@ -200,6 +200,7 @@ const _numberFormatInt = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 export function numberFormat(x: number): string {
+  if (x < 0) return `−${numberFormat(-x)}`;
   if (x > 9_999_999_999) {
     return `${numberFormat(x / 1_000_000_000)} B`;
   }

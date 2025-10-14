@@ -8,6 +8,7 @@ const props = defineProps<{
   color?: string
   label?: string
   title?: string
+  regen?: number
 }>()
 const scratched = ref(false);
 watch(() => props.value, (newValue, oldValue) => {
@@ -26,6 +27,7 @@ watch(() => props.value, (newValue, oldValue) => {
     </div>
     <div class="progress-text numbers" v-else>
       {{ numberFormat(value) }} / {{ numberFormat(max) }} {{ label }}
+      <div class="regen" v-if="regen">{{ `+${numberFormat(regen)}/s` }}</div>
     </div>
   </div>
 </template>
@@ -33,7 +35,7 @@ watch(() => props.value, (newValue, oldValue) => {
 <style scoped>
 .progress-container {
   position: relative;
-  width: 200px;
+  width: 240px;
   background-color: #333;
   border-radius: 4px;
   border: 1px solid #000;
@@ -57,5 +59,12 @@ watch(() => props.value, (newValue, oldValue) => {
   font-weight: bold;
   font-size: 20px;
   text-align: right;
+}
+
+.regen {
+  font-size: 12px;
+  color: #fffa;
+  margin-top: -4px;
+  margin-bottom: 4px;
 }
 </style>
