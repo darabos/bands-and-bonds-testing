@@ -27,11 +27,15 @@ function set(row: number, col: number, name: string) {
   const onb = onboard(name);
   const cost = friendsByName[name]?.cost ?? 0;
   if (onb) {
+    const savedBand = { ...store.local.band };
     remove(onb.row, onb.col);
     if (store.available(row, col)) {
       store.local.band[col + row * store.local.band.width] = name;
     }
     removeUnlit();
+    if (store.run.steps > 0 && !onboard('Wayfinder')) {
+      store.local.band = savedBand;
+    }
   } else if (store.team.packs >= packsSpent.value + cost && store.available(row, col)) {
     store.local.band[col + row * store.local.band.width] = name;
   }
@@ -79,8 +83,12 @@ function friendClicked(row: number, col: number) {
   if (selected.value !== friend?.name) {
     selected.value = friend?.name;
   } else if (enabled.value) {
+    const savedBand = { ...store.local.band };
     remove(row, col);
     removeUnlit();
+    if (store.run.steps > 0 && !onboard('Wayfinder')) {
+      store.local.band = savedBand;
+    }
   }
 }
 
@@ -117,7 +125,7 @@ const bonds = computed(() => {
         if (nn === 'Lord of Gears' && !abilities.some(ab => !ab.preventAutomation)) continue;
         if (
           (nn === 'The Silent Song' || nn === 'Campfinder')
-          && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark')
+          && f.name !== 'Anvilominator' && !f.name?.startsWith('Dark') && !f.name?.startsWith('Xaranthian')
           && abilities.every(ab => !ab.damage || ab.hidden?.(store))) continue;
         const bond = nextTo(nn, row, col);
         if (bond) {

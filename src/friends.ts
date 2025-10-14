@@ -347,6 +347,8 @@ Just point to your destination on the map to get started.
 To repeat the run after reaching the destination, place Wayfinder at the front of your band.
 
 With Wayfinder in your band, you can replace members of your band at campfires.
+You won't be able to remove Wayfinder though.
+
 Now that Wayfinder is free, you can see more details on the map.
     `,
     passiveEffects: (store) => store.onboard("Wayfinder")!.row < 2
@@ -360,6 +362,8 @@ Just point to your destination on the map to get started.
 To repeat the run after reaching the destination, place Campfinder at the front of your band.
 
 With Campfinder in your band, you can replace members of your band at campfires.
+You won't be able to remove Campfinder though.
+
 Now that Campfinder is free, you can see more details on the map.
 
 Campfinder sets the weapons of nearby explorers on fire.
