@@ -223,21 +223,20 @@ export function durationFormat(durationMs: number): string {
     duration /= divisors[level - 1];
     level--;
   }
-  while (level < divisors.length - 1 && duration < 1) {
+  while (level < units.length - 1 && duration < 1) {
     duration *= divisors[level];
     level++;
   }
-  if (duration < 2 && level < divisors.length - 1) {
-    const remainder = Math.round((duration - 1) * divisors[level]);
-    if (remainder === 0) {
-      return `1 ${units[level]}`;
+  const d = Math.floor(duration);
+  const plural = d === 1 || units[level].endsWith('s') ? '' : 's';
+  const lvl1 = `${numberFormat(d)} ${units[level]}${plural}`;
+  if (d < 10 && level < divisors.length) {
+    const remainder = Math.round((duration - d) * divisors[level]);
+    if (remainder > 0) {
+      const plural = remainder === 1 || units[level + 1].endsWith('s') ? '' : 's';
+      const lvl2 = `${numberFormat(remainder)} ${units[level + 1]}${plural}`;
+      return `${lvl1} ${lvl2}`;
     }
-    if (remainder === 1) {
-      return `1 ${units[level]} 1 ${units[level + 1]}`;
-    }
-    const plural = units[level + 1].endsWith('s') ? '' : 's';
-    return `1 ${units[level]} ${numberFormat(remainder)} ${units[level + 1]}${plural}`;
   }
-  const plural = units[level].endsWith('s') ? '' : 's';
-  return `${numberFormat(Math.round(duration))} ${units[level]}${plural}`;
+  return lvl1;
 }
