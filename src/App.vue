@@ -107,7 +107,7 @@ onUnmounted(() => {
     class="app">
     <div class="header">
       <div class="header-header">
-        <div id="header-temporary" class="numbers" :style="{ opacity: showResources ? 1 : 0 }">
+        <div id="header-temporary" class="numbers" :style="{ visibility: showResources ? 'visible' : 'hidden' }">
           <template v-if="store.run.gold">
             <img src="/images/generated/gold.webp" class="header-icon" />
             {{ numberFormat(store.run.gold) }}
@@ -126,12 +126,12 @@ onUnmounted(() => {
           <span style="color: #edb;">&nbsp;&&nbsp;</span>
           <img src="/images/generated/logo.webp" alt="B" />onds
         </div>
-        <div id="header-permanent" class="numbers" :style="{ opacity: showResources ? 1 : 0 }">
-          <template v-if="store.weaponLevel() - store.run.weaponLevelAdded > 1">
+        <div id="header-permanent" class="numbers">
+          <template v-if="showResources && store.weaponLevel() - store.run.weaponLevelAdded > 1">
             {{ numberFormat(store.weaponLevel() - store.run.weaponLevelAdded) }}
             <img src="/images/generated/weapon-level-permanent.webp" class="header-icon sword-icon" />
           </template>
-          <template v-if="fruit">
+          <template v-if="showResources && fruit">
             &nbsp; {{ numberFormat(fruit) }}
             <img src="/images/generated/fruit.webp" class="header-icon" title="Gold spoils. Fruit is forever." />
           </template>
